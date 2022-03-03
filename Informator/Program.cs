@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Informator
 {
@@ -23,18 +24,21 @@ namespace Informator
 
             PersonHelp(userInputName, userInputLastName, new Adress(userInputAdressCity, userInputAdressStret, userInputAdressPostalCode));
 
+
         }
 
 
         static void PersonHelp(string firstName,string lastName,Adress adress)
         {
-            Person person = new Person();
-            person.FirstName = firstName;
-            person.LastName = lastName;
-            person.adress = adress;
-            
-
-            Console.WriteLine($"First name:{person.FirstName}, Last name:{person.LastName}, Lokalizacjia:  {adress.City} {adress.PostalCode} {adress.Streat}");
+            List<Person> personList = new List<Person>();
+            personList.Add(new Person { FirstName = firstName, LastName = lastName, adress = adress });
+            foreach (var item in personList)
+            {
+                Console.WriteLine($"{item.FirstName} {item.LastName} {item.adress.City} {item.adress.Streat} {item.adress.PostalCode}");
+            }
+      
         }
+
+
     }
 }
