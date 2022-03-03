@@ -11,6 +11,7 @@ namespace Informator
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public Gender gender { get; set; }
         public Adress adress { get; set; }
     }
 }
