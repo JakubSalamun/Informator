@@ -46,7 +46,14 @@ namespace Informator
         static void GetData(IEnumerable<Person> people,string name,string lastname)
         {
             var lostPeople = people.FirstOrDefault(p => p.FirstName == name && p.LastName == lastname);
-            Console.WriteLine(lostPeople);
+            if (lostPeople!=null)
+            {
+                Console.WriteLine("Znaloeziono osobę");
+            }
+            else
+            {
+                Console.WriteLine("Brak danych");
+            }
         }
 
         public static string PersonCheckGender(string gender)
@@ -75,35 +82,10 @@ namespace Informator
             {
                 Console.WriteLine($"Prson:{helpGender}{item.FirstName} {item.LastName}\nAdres:{item.adress.City} {item.adress.Streat} {item.adress.PostalCode}");
             }
-            LostPeople(firstName, lastName);
+      
         }
   
-        public static void LostPeople(string name, string lastname)
-        {
-            //List<Person> lostPeople = new List<Person>();
-            //lostPeople.Add(new Person { FirstName = "Jan", LastName = "Kowalski" });
-            //lostPeople.Add(new Person { FirstName = "Ela", LastName = "Nowak" });
-            //lostPeople.Add(new Person { FirstName = "Arnold", LastName = "Michalski" });
-            //lostPeople.Add(new Person { FirstName = "Katarzyna", LastName = "Rasz" });
-
-
-            
-
-            foreach (var item in lostPeople)
-            {
-                if (name == item.FirstName && lastname == item.LastName)
-                {
-                    Console.WriteLine("Znaleziono osobę");
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Brak powiązania");
-                    break;
-                }
-            }
-
-        }
+ 
 
         static List<Person> LoadFile(string csvPath)
         {
