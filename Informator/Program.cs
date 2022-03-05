@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace Informator
 {
@@ -28,10 +33,21 @@ namespace Informator
             Console.Write("(1-Male/2-Female)Płeć:");
             var userInputGender = Console.ReadLine();
 
-           PersonHelp(userInputName, userInputLastName, userInputGender, new Adress(userInputAdressCity, userInputAdressStret, userInputAdressPostalCode));
+            string csvPath = @"C:\Users\Komputer\Downloads\lost.csv";
+            var lostPeople = LoadFile(csvPath);
+
+            PersonHelp(userInputName, userInputLastName, userInputGender, new Adress(userInputAdressCity, userInputAdressStret, userInputAdressPostalCode));
+
+            GetData(lostPeople, userInputName, userInputLastName);
+
             
         }
 
+        static void GetData(IEnumerable<Person> people,string name,string lastname)
+        {
+            var lostPeople = people.FirstOrDefault(p => p.FirstName == name && p.LastName == lastname);
+            Console.WriteLine(lostPeople);
+        }
 
         public static string PersonCheckGender(string gender)
         {
@@ -61,14 +77,17 @@ namespace Informator
             }
             LostPeople(firstName, lastName);
         }
-
+  
         public static void LostPeople(string name, string lastname)
         {
-            List<Person> lostPeople = new List<Person>();
-            lostPeople.Add(new Person { FirstName = "Jan", LastName = "Kowalski" });
-            lostPeople.Add(new Person { FirstName = "Ela", LastName = "Nowak" });
-            lostPeople.Add(new Person { FirstName = "Arnold", LastName = "Michalski" });
-            lostPeople.Add(new Person { FirstName = "Katarzyna", LastName = "Rasz" });
+            //List<Person> lostPeople = new List<Person>();
+            //lostPeople.Add(new Person { FirstName = "Jan", LastName = "Kowalski" });
+            //lostPeople.Add(new Person { FirstName = "Ela", LastName = "Nowak" });
+            //lostPeople.Add(new Person { FirstName = "Arnold", LastName = "Michalski" });
+            //lostPeople.Add(new Person { FirstName = "Katarzyna", LastName = "Rasz" });
+
+
+            
 
             foreach (var item in lostPeople)
             {
@@ -82,6 +101,18 @@ namespace Informator
                     Console.WriteLine("Brak powiązania");
                     break;
                 }
+            }
+
+        }
+
+        static List<Person> LoadFile(string csvPath)
+        {
+            using (var reader=new StreamReader(csvPath))
+            using (var csv=new CsvReader(reader,CultureInfo.InvariantCulture))
+            {
+                // csv.Context.RegisterClassMap<PersonMap>();
+                var records = csv.GetRecords<Person>().ToList();
+                return records;
             }
         }
 
