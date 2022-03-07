@@ -92,7 +92,7 @@ namespace Informator
             using (var reader=new StreamReader(csvPath))
             using (var csv=new CsvReader(reader,CultureInfo.InvariantCulture))
             {
-                // csv.Context.RegisterClassMap<PersonMap>();
+                csv.Context.RegisterClassMap<PersonMap>();
                 var records = csv.GetRecords<Person>().ToList();
                 return records;
             }
